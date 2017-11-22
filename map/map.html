@@ -135,23 +135,29 @@
 	});
 	map.addControl(drawControl);
 
-
+	var markers = [];
 
 // Custom functions upon 'edit' (when user clicks map to place marker)
 	map.on('draw:created', function(e) {  
 
-  		var coords = e.layer._latlng;  	
-		
-		console.log("Marker layer type: " + e.layerType);
-		console.log(this);
-
-		var tempMarker;
-
+		var marker;
+		var coords = e.layer._latlng;
+		var id;
 		var markerTypesForm;
+
+		if (markers.length < 1) {
+			id = 0
+		} else {
+			id = markers[markers.length - 1]._id + 1
+		};  	
+		
+		// console.log("Marker layer type: " + e.layerType);
+		// console.log(this);
+
 
 		switch (e.layerType) {
 			case 'R': // If a red (R) marker is placed
-				tempMarker = L.marker(coords, { icon: obstructionIcon });
+				marker = L.marker(coords, { icon: obstructionIcon });
 				markerTypesForm = 
 				'<div class="form-group">'+
 					'<label class="control-label col-sm-5"><strong>Obstruction Type: </strong></label>'+
@@ -166,7 +172,7 @@
 			break;
 
 			case 'G': // If a green (G) marker is placed
-				tempMarker = L.marker(coords, { icon: supportIcon });
+				marker = L.marker(coords, { icon: supportIcon });
 				markerTypesForm = 
 				'<div class="form-group">'+
 					'<label class="control-label col-sm-5"><strong>Support Type: </strong></label>'+
@@ -180,7 +186,7 @@
 
 		// Old code; keeping here just in case
     	// var coords = e.layer._latlng;
-    	// tempMarker = drawnItems.addLayer(e.layer);
+    	// marker = drawnItems.addLayer(e.layer);
 		
 		var popupContent = 
 			'<form role="form" id="form" enctype="multipart/form-data" class="form-horizontal" onsubmit="addMarker()">'+
@@ -207,62 +213,71 @@
 			// Submit & cancel buttons
 			'<div class="form-group">'+
 				'<div class="col-xs-6"><button type="button" class="btn btn-primary" id="cancel-btn">Cancel</button></div>'+
-				'<div class="col-xs-6"><button type="submit" value="submit" class="btn btn-primary trigger-submit">Submit</button></div>'+
+				// '<div class="col-xs-6"><button type="submit" value="submit" class="btn btn-primary trigger-submit">Submit</button></div>'+
+				'<div class="col-xs-6"><button type="submit" value="submit" class="btn btn-primary trigger-submit" id="submit-btn">Submit</button></div>'+
 			'</div>'+
 
 	    	'</form>';
 
-		tempMarker
+		marker
 		.bindPopup(popupContent,
 		{
 			keepInView: true,
-      		closeButton: true 
+      		closeButton: false 
     	})
     	.addTo(map)
     	.openPopup()
-    	// .onClick marker for testing
-    	.on('click', function() { 
-    		console.log(this);
-    		console.log("Marker layer type: " + e.layerType); 
-    	})
+    	._id = id
+
+    	
+    	console.log("Marker id: " + marker._id);
     	
 
-		// ** TODO: Cancel form button deletes marker
-
-		// Cancel form button (deletes marker)
+		// Cancel form button (deletes marker, does not add to array)
 		$("#cancel-btn").click(function() {
-			console.log("clicked");
-			map.removeLayer(tempMarker);
-
-
-		})
-
-		// ** TODO: Submit form button 
-			// Save user input (date, location, type of marker, and description) to database
+			map.removeLayer(marker);
+			console.log("Marker canceled; not added to array")
+			console.log(markers);
+		});
 
 		// Submit form button 
-		$("#form").submit(function(e){
+		$("#submit-btn").click(function(e){
 			e.preventDefault();
-			// addMarker();
+			markers.push(marker)
+			console.log("Marker with id " + marker._id + " added to array")
+			// console.log("Markers array: " + markers);
+			console.log(markers);
+			map.closePopup();
 			var date = $("#date").val().trim();
 			var markerType = $("#marker-type").val().trim();
 			var description = $("#description").val().trim();
 			var lat = $("#lat").val().trim();
 			var lng = $("#lng").val().trim();
+			console.log("Marker information: ");
+			console.log("===========================");
 			console.log("Date: " + date);
 			console.log("Marker type: " + markerType);
 			console.log("Description: " + description);
 			console.log("Lat: " + lat);
 			console.log("Lng: " + lng);
+			console.log("===========================");
 
 
-		// ** TODO:
+		// ** TODO: When user clicks 'Submit' button 
+			// Save user input (date, location, type of marker, and description) to database
 			// Delete the old marker icon 
 			// Send back specific custom marker based on the TYPE valye from user input 
 				// Send back as argument ?
 			// Save the new specific custom marker at the location 
 				// Informational pop-up when clicked 
 		});
+
+		// Other way to submit form; keeping here just in case 
+		// $("#form").submit(function(e){
+		// 	e.preventDefault();
+		// 	// addMarker();		
+		// });
+
 	});
 
 </script>
