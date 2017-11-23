@@ -1,10 +1,11 @@
 var express = require('express')
-var app = express()
-var passport = require('passport')
-var session = require('express-session')
-var bodyParser = require('body-parser')
-var env = require('dotenv').load()
-var exphbs = require('express-handlebars')
+, app = express()
+, passport = require('passport')
+, session = require('express-session')
+, bodyParser = require('body-parser')
+, env = require('dotenv').load()
+, exphbs = require('express-handlebars')
+, flash = require('connect-flash')
 var port = process.env.PORT || 8000;
 
 //For BodyParser
@@ -20,14 +21,16 @@ app.use(session({
 	saveUninitialized: true
 })); // session secret
 app.use(passport.initialize());
-app.use(passport.session()); // persistent login sessions
-
+app.use(passport.session()); // persistent login 
+app.use(flash());
 
 //For Handlebars
 var exphbs = require("express-handlebars");
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
+//including maki markers
+app.use(express.static(__dirname+'/views/layouts'));
 
 app.get('/', function(req, res) {
 	res.send('Welcome to WheelWay');
