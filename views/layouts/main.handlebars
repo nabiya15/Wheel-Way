@@ -2,7 +2,50 @@
 <html>
  
 <head>
-    <title></title>
+    <title>WheelWays</title>
+    <title>Wheelway Map</title>
+	<!--Bootstrap-->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<!--jQuery-->
+	<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+	<!--Leaflet CSS-->
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin="" />
+   	<!--Leaflet script-->
+	<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin=""></script>
+	
+	<!--Leaflet Draw CSS-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
+	<!--Leaflet Draw script-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
+   	  <!--Leaflet MakiMarkers script-->
+   <script src="Leaflet.MakiMarkers.js"></script>
+
+ 
+
+    <style>
+    	#map {
+    	 height: 500px;
+    	 width: 900px;
+    	 margin-left: auto; 
+    	 margin-right:auto;
+    	}
+    	/* Red marker (toolbar) */
+ 		.leaflet-draw-toolbar .leaflet-draw-draw-R { 
+		 background: url(data:image/svg+xml;utf8,
+		 	<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20'>
+    	 	<circle cx='5' cy='5' r='5' />
+		 	</svg>) no-repeat; 
+		 background-color: rgba(244, 67, 54, 0.7);
+		}
+		/*green marker (toolbar) */
+		.leaflet-draw-toolbar .leaflet-draw-draw-G {
+		 background: url(data:image/svg+xml;utf8,
+		 	<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20'>
+    	 	<circle cx='5' cy='5' r='5' />
+		 	</svg>) no-repeat;
+		 background-color: rgba(76, 175, 80, 0.7);
+		}
+    </style>
 </head>
  
 <body>
