@@ -9,12 +9,10 @@ exports.signup = function(req, res) {
 }
 
 exports.signin = function(req,res){
-	console.log("Current user is: \n"+req.body.user);
 	res.render("signin", {user: req.user});
 }
 
 exports.dashboard = function(req, res){
-	console.log("dashboard user request body: /n"+ req.body.user);
 	res.render("dashboard");
 }
 
