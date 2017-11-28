@@ -2,10 +2,9 @@ var authController = require('../controllers/authcontroller.js');
 
 module.exports = function(app, passport) {
   function isLoggedIn(req, res, next) {
-    console.log("Inside is isLoggedIn:"+ req.body.user)
      if (req.isAuthenticated())
          return next();
-     res.redirect('/dashboard/');
+     //res.redirect('/dashboard');
  }
 
   app.get("/fail", authController.fail);
