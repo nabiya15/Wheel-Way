@@ -1,0 +1,40 @@
+.container {
+    background-color: #b9f6ca;
+    background-size: 100% 100%;
+}
+
+h3 {
+    font-family: 'Neon Stream', sans-serif;
+    color: rgb(242, 9, 9);
+    text-align: left;
+    text-shadow: rgb(0, 0, 0) 0 0 20px;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+.page-footer {
+    background-color: rgb(205, 232, 224)
+}
+
+nav .brand-logo {
+    color: #808b82;
+}
+
+.btn {
+    color: #808b82;
+    font-weight: 800;
+    align-self: auto;
+}
+
+html {
+    font-size: 14px;
+    font-weight: 800;
+}
