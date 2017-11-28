@@ -38,6 +38,7 @@ var models = require("./models");
 
 //Routes
 var authRoute = require('./routes/auth.js')(app,passport);
+require("./routes/pin-routes.js")(app);
 
 //load passport strategies
 require('./config/passport.js')(passport, models.User);
