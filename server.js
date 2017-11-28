@@ -6,8 +6,9 @@ var express = require('express')
 , env = require('dotenv').load()
 , exphbs = require('express-handlebars')
 , flash = require('connect-flash')
+, leafletGeosearch= require('leaflet-geosearch')
+, exphbs = require("express-handlebars")
 var port = process.env.PORT || 8000;
-
 //For BodyParser
 app.use(bodyParser.urlencoded({
 	extended: true
@@ -25,16 +26,12 @@ app.use(passport.session()); // persistent login
 app.use(flash());
 
 //For Handlebars
-var exphbs = require("express-handlebars");
+
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
 //including maki markers
 app.use(express.static(__dirname+'/views/layouts'));
-
-app.get('/', function(req, res) {
-	res.send('Welcome to WheelWay');
-});
 
 //Models
 var models = require("./models");
