@@ -1,189 +1,296 @@
 
 <!--Map container-->
-<div id="map"></div>
+<div id="container">
+	<div id="header">
+		<span>
+			<h1 class="display1" >Welcome {{user.firstname}}<a class="btn logoutBtn" href="/logout"><i class="fa fa-sign-out fa-fw"></i> LOGOUT</a></h1>
+		</span>
+			
+	</div>
+	<!-- <input type="text" class="form-control" placeholder="&#xF002; Search location..." style="font-family:Arial, FontAwesome" id="searchbox"/> -->
+	<div id="map">
+		
+	</div>
+</div>
 
 <!--Script-->
 <script>
-	// Initializing map and setting view to chosen geographical coordinates and a zoom level
-		// Set default view to IP address of current user **
-	var map = L.map('map').setView([30.307182, -97.755996], 12); // Austin, TX
 
 	// Adding Mapbox Streets tile layer
-	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', 
-		{ attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>', 
-		maxZoom: 18, 
-		id: 'mapbox.streets', 
-		accessToken: 'pk.eyJ1Ijoic3p1bmppYyIsImEiOiJjamE1a3FudDY0bHI2MnBwb2d5eTNueWs1In0.kbvyZYrCsTeQP4yvdWCdig'
-	}).addTo(map);
+	var mapBoxAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+	'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+	mapBoxUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoic3p1bmppYyIsImEiOiJjamE1a3FudDY0bHI2MnBwb2d5eTNueWs1In0.kbvyZYrCsTeQP4yvdWCdig';
+
+	
+	var grayscale = L.tileLayer(mapBoxUrl, {id:"mapbox.light", attribution : mapBoxAttr}),
+		streets = L.tileLayer(mapBoxUrl, {id:"mapbox.streets", attribution : mapBoxAttr}),
+		satellite = L.tileLayer(mapBoxUrl, {id:"mapbox.satellite", attribution : mapBoxAttr});
+		
+
+	var map = L.map('map',{
+		center : [30.307182, -97.755996],
+		maxZoom : 18,
+		zoom : 14,
+		layers : [streets]
+	});	
+
+	var baseLayers = {
+		"Streets" : streets,
+		"Grayscale" : grayscale,
+		"Satellite" : satellite,
+		
+	}
+	L.control.layers(baseLayers).addTo(map);
+
+	var locateControls = {
+		flyTo : true,
+		drawCircle : false,
+		enableHighAccuracy: true,
+	}
+	var lc = L.control.locate(locateControls).addTo(map);
+	console.log(lc);
+	lc.start();
+
+
+	//****************************************************************************
+	//Code to add search options for the current location
+	//import
+/*	import{OpenStreetMapProvider} from "leaflet-geosearch";
+	const form = document.querySelector('form');
+	const input = form.querySelector('input[type="text"]');
+
+	form.addEventListener('submit', async (event) => {
+		event.preventDefault();
+
+		const results = await provider.search({ query: input.value });
+  	console.log(results); // » [{}, {}, {}, ...]
+	});
+	// setup 
+	const provider = new OpenStreetMapProvider();
+	// search
+	const results = await provider.search({query: input.value});*/
+
+
+	//****************************************************************************
 
 	// MakiMarkers (Map icons)
-		// Must npm install for this to work **	
-	L.MakiMarkers.accessToken="pk.eyJ1Ijoic3p1bmppYyIsImEiOiJjamE1a3FudDY0bHI2MnBwb2d5eTNueWs1In0.kbvyZYrCsTeQP4yvdWCdig";
+  // ** Must npm install for this to work
+  L.MakiMarkers.accessToken 
+  = "pk.eyJ1Ijoic3p1bmppYyIsImEiOiJjamE1a3FudDY0bHI2MnBwb2d5eTNueWs1In0.kbvyZYrCsTeQP4yvdWCdig";
 
-	var obstructionIcon = L.MakiMarkers.icon({icon: "roadblock", color: "#f44336", size: "l"});
+  var obstructionIcon = L.MakiMarkers.icon({icon: "roadblock", color: "#f44336", size: "l"});
+  var supportIcon = L.MakiMarkers.icon({icon: "disability", color: "#4caf50", size: "l"});
 
-	var clearIcon = L.MakiMarkers.icon({icon: "disability", color: "#4caf50", size: "l"});
-
-	// Creating temp layer to store new features
-	var drawnItems = new L.FeatureGroup();
-	map.addLayer(drawnItems);
-
-	// Adding different types of markers ??? (3 different soultions that could all fail)
-    	// 1. Create your own draw handlers that extend from L.Draw.Marker and change the type. 
-    		// Then you would need to alter the L.DrawToolbar to include you new handler.
-    	// 2. Modifying options on the fly and listen to the events to allow different styles and layers 	for the shapes
-    	// 3. You could set up multiple options, then call them from a custom UI
-    	// 4. You could hack up L.DrawToolbar.getModehandlers to include X number of versions of the marker handler for each of them.
-
-    // Going with #4
-    	// Hacking up L.DrawToolbar.getModeHandlers to include 2 versions of the marker handler 
+// Creating temp layer to store new features ** I think this is unecessary; keeping here just in case.
+	// var drawnItems = new L.FeatureGroup();
+	// map.addLayer(drawnItems); 
 
     // Red marker (obstruction)
     L.Draw.MarkerR = L.Draw.Marker.extend({
     	initialize: function (map, options) {
-      		this.type = 'R';
+    		this.type = 'R';
 
-      		L.Draw.Feature.prototype.initialize.call(this, map, options);
+    		L.Draw.Feature.prototype.initialize.call(this, map, options);
     	},
 
     	addHooks: function () {
-      		L.Draw.Marker.prototype.addHooks.call(this);
-			
-			if (this._map) {
-        		this._tooltip.updateContent({ text: 'Click to place an obstruction marker.' });
-      		}
-    	}
-	});
+    		L.Draw.Marker.prototype.addHooks.call(this);
 
-	// Green marker (clear path)
+    		if (this._map) {
+    			this._tooltip.updateContent({ text: 'Click to place an obstruction marker.' });
+    		}
+    	}
+    });
+
+	// Green marker (support)
 	L.Draw.MarkerG = L.Draw.Marker.extend({
 		initialize: function (map, options) {
 			this.type = 'G';
 
 			L.Draw.Feature.prototype.initialize.call(this, map, options);
-    	},
+		},
 
 		addHooks: function () {
 			L.Draw.Marker.prototype.addHooks.call(this);
 
-      		if (this._map) {
-        		this._tooltip.updateContent({ text: 'Click to place a clear path marker.' });
-      		}
-    	}
+			if (this._map) {
+				this._tooltip.updateContent({ text: 'Click to place a support marker.' });
+			}
+		}
 	});
 
-	// Tool-bar hack to include new markers 
+	// Hacking up L.DrawToolbar.getModeHandlers to include the 2 new versions of the marker handler
 	L.DrawToolbar.include({
 		getModeHandlers: function (map) {
 			return [
-				{
-					enabled: true,
-                	handler: new L.Draw.MarkerR(map, { icon: obstructionIcon }),
-					//handler: new L.Draw.MarkerR(map, { icon: new L.Icon.Default() }),
+			{
+				enabled: true,
+				handler: new L.Draw.MarkerR(map, { icon: obstructionIcon }),
+					// Leaflet default blue marker: { icon: new L.Icon.Default() })
 					title: 'Obstruction'
 				},
 				{
 					enabled: true,
-					handler: new L.Draw.MarkerG(map, { icon: clearIcon }),
-					//handler: new L.Draw.MarkerG(map, { icon: new L.Icon.Default() }),
-					title: 'Clear path'
+					handler: new L.Draw.MarkerG(map, { icon: supportIcon }),
+					// Leaflet default blue marker: { icon: new L.Icon.Default() })
+					title: 'Support'
 				},
-			];
-		}
-	});
+				];
+			}
+		});
 
 	// Creating draw controls and toolbar
 	var drawControl = new L.Control.Draw({
 		draw: {
-			position: 'topleft'
+			position: 'topleft',
 		},
-			edit: false
+		edit: false
 	});
 	map.addControl(drawControl);
 
-	// Custom functions upon 'edit' (when user clicks map to place marker)
-	map.on('draw:created', function(e) {
-    	var coords = e.layer._latlng;
-    	console.log(coords);
-    	var tempMarker = drawnItems.addLayer(e.layer);
+	var markers = [];
 
-    // ** Need to implement this if/else ** 
+// Custom functions upon 'edit' (when user clicks map to place marker)
+map.on('draw:created', function(e) {  
 
-	// If red marker (barrier type) was placed 
-		// Form with marker type options: barrier, construction, curb, curb cut, rough road, stairs 
+	var marker;
+	var coords = e.layer._latlng;
+	var id;
+	var markerTypesForm;
 
-	// If green marker (clear path type) was placed 
-		// Form with marker type options: ramp, elevator 
-		
-		var popupContent = 
-			'<form role="form" id="form" enctype="multipart/form-data" class="form-horizontal" onsubmit="addMarker()">'+
-	        
+	if (markers.length < 1) {
+		id = 0
+	} else {
+		id = markers[markers.length - 1]._id + 1
+	};  	
+
+		// console.log("Marker layer type: " + e.layerType);
+		// console.log(this);
+
+
+		switch (e.layerType) {
+			case 'R': // If a red (R) marker is placed
+			marker = L.marker(coords, { icon: obstructionIcon });
+			markerTypesForm = 
+			'<div class="form-group">'+
+			'<label class="control-label col-sm-5"><strong>Obstruction Type: </strong></label>'+
+			'<select class="form-control" id="marker-type" name="marker-type">'+
+			'<option value="barrier">Barrier</option>'+
+			'<option value="construction">Construction</option>'+
+			'<option value="curb">Curb</option>'+
+			'<option value="stairs">Stairs</option>'+
+			'<option value="rough-road">Rough road</option>'+
+			'</select>'+ 
+			'</div>'
+			break;
+
+			case 'G': // If a green (G) marker is placed
+			marker = L.marker(coords, { icon: supportIcon });
+			markerTypesForm = 
+			'<div class="form-group">'+
+			'<label class="control-label col-sm-5"><strong>Support Type: </strong></label>'+
+			'<select class="form-control" id="marker-type" name="marker-type">'+
+			'<option value="curb-cut">Curb cut</option>'+
+			'<option value="ramp">Ramp</option>'+
+			'<option value="elevator">Elevator</option>'+
+			'</select>'+ 
+			'</div>'		
+		};
+
+		// Old code; keeping here just in case
+    	// var coords = e.layer._latlng;
+    	// marker = drawnItems.addLayer(e.layer);
+
+    	var popupContent = 
+    	'<form role="form" id="form" enctype="multipart/form-data" class="form-horizontal" onsubmit="addMarker()">'+
+
 	        // Date
 	        '<div class="form-group">'+
-				'<label class="control-label col-sm-5"><strong>Date: </strong></label>'+
-				'<input type="date" placeholder="Required" id="date" name="date" class="form-control"/>'+ 
-			'</div>'+
+	        '<label class="control-label col-sm-5"><strong>Date: </strong></label>'+
+	        '<input type="date" placeholder="Required" id="date" name="date" class="form-control"/>'+ 
+	        '</div>'+
 
 			// Type of marker
-			'<div class="form-group">'+
-				'<label class="control-label col-sm-5"><strong>Type of Marker: </strong></label>'+
-				'<select class="form-control" id="marker-type" name="marker-type">'+
-	            	'<option value="barrier">Barrier</option>'+
-	            	'<option value="construction">Construction</option>'+
-	            	'<option value="obstruction">Obstruction</option>'+
-	            	'<option value="stairs">Stairs</option>'+
-	            	'<option value="ramp">Ramp</option>'+
-	            	'<option value="elevator">Elevator</option>'+
-	          	'</select>'+ 
-			'</div>'+
+			markerTypesForm +
 
 			// Description (optional)
-	        '<div class="form-group">'+
-				'<label class="control-label col-sm-5"><strong>Description (optional): </strong></label>'+
-				'<textarea class="form-control" rows="6" id="description" name="description"></textarea>'+
+			'<div class="form-group">'+
+			'<label class="control-label col-sm-5"><strong>Description (optional): </strong></label>'+
+			'<textarea class="form-control" rows="6" id="description" name="description"></textarea>'+
 			'</div>'+
 
 			// Location coordinates (not seen)
 			'<input style="display: none;" type="text" id="lat" name="lat" value="'+coords.lat.toFixed(6)+'" />'+
 			'<input style="display: none;" type="text" id="lng" name="lng" value="'+coords.lng.toFixed(6)+'" />'+
 
-			// Submit button 
+			// Submit & cancel buttons
 			'<div class="form-group">'+
-				'<div style="text-align:center;" class="col-xs-4"><button type="submit" value="submit" class="btn btn-primary trigger-submit">Submit</button></div>'+
-			'</div>'+
+			'<div class="col-xs-6"><button type="button" class="btn btn-primary" id="cancel-btn">Cancel</button></div>'+
+				// '<div class="col-xs-6"><button type="submit" value="submit" class="btn btn-primary trigger-submit">Submit</button></div>'+
+				'<div class="col-xs-6"><button type="submit" value="submit" class="btn btn-primary trigger-submit" id="submit-btn">Submit</button></div>'+
+				'</div>'+
 
-	    	'</form>';
+				'</form>';
 
-		tempMarker.bindPopup(popupContent,
-		{
-			keepInView: true,
-      		closeButton: true // ** TODO: Make this close button cancel the form **
-    	}).openPopup();
+				marker
+				.bindPopup(popupContent,
+				{
+					keepInView: true,
+					closeButton: false 
+				})
+				.addTo(map)
+				.openPopup()
+				._id = id
 
-		// Submit the form 
-		$("#form").submit(function(e){
+
+				console.log("Marker id: " + marker._id);
+
+
+		// Cancel form button (deletes marker, does not add to array)
+		$("#cancel-btn").click(function() {
+			map.removeLayer(marker);
+			console.log("Marker canceled; not added to array")
+			console.log(markers);
+		});
+
+		// Submit form button 
+		$("#submit-btn").click(function(e){
 			e.preventDefault();
-			// addMarker();
+			markers.push(marker)
+			console.log("Marker with id " + marker._id + " added to array")
+			// console.log("Markers array: " + markers);
+			console.log(markers);
+			map.closePopup();
 			var date = $("#date").val().trim();
 			var markerType = $("#marker-type").val().trim();
 			var description = $("#description").val().trim();
 			var lat = $("#lat").val().trim();
 			var lng = $("#lng").val().trim();
+			console.log("Marker information: ");
+			console.log("===========================");
 			console.log("Date: " + date);
 			console.log("Marker type: " + markerType);
 			console.log("Description: " + description);
 			console.log("Lat: " + lat);
 			console.log("Lng: " + lng);
+			console.log("===========================");
 
 
-		// ** TODO:
-			// Save location, type, and date to database 
+		// ** TODO: When user clicks 'Submit' button 
+			// Save user input (date, location, type of marker, and description) to database
+			// Delete the old marker icon 
+			// Send back specific custom marker based on the TYPE valye from user input 
+				// Send back as argument ?
+			// Save the new specific custom marker at the location 
+				// Informational pop-up when clicked 
+			});
 
-			// Send back the correct icon that user requested, to be saved on the map 
-			// (Send back as an argument)
-			// Remeber to delete original marker 
+		// Other way to submit form; keeping here just in case 
+		// $("#form").submit(function(e){
+		// 	e.preventDefault();
+		// 	// addMarker();		
+		// });
 
-		});
 	});
 
 </script>

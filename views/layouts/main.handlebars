@@ -1,55 +1,69 @@
 <!DOCTYPE html>
 <html>
- 
+
 <head>
-    <title>WheelWays</title>
-    <title>Wheelway Map</title>
+	<title>WheelWays</title>
+	<title>Wheelway Map</title>
 	<!--Bootstrap-->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+	<!-- Google fonts API-->
+	<link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">
+
+	<!--Font awesome CDN-->
+	<script src="https://use.fontawesome.com/1de7481f60.js"></script>
+
 	<!--jQuery-->
 	<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+
+	<!-- jQuery validate CDN-->
+	<script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+
+	<!-- link to js file for siginin validation-->
+	<script src= "js/signinValidation.js"></script>
+
 	<!--Leaflet CSS-->
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin="" />
-   	<!--Leaflet script-->
+
+	<!--Leaflet script-->
 	<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin=""></script>
 	
 	<!--Leaflet Draw CSS-->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
+
 	<!--Leaflet Draw script-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
-   	  <!--Leaflet MakiMarkers script-->
-   <script src="Leaflet.MakiMarkers.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
 
- 
+	<!--Leaflet MakiMarkers script-->
+	<script src="js/Leaflet.MakiMarkers.js"></script>
 
-    <style>
-    	#map {
-    	 height: 500px;
-    	 width: 900px;
-    	 margin-left: auto; 
-    	 margin-right:auto;
-    	}
-    	/* Red marker (toolbar) */
- 		.leaflet-draw-toolbar .leaflet-draw-draw-R { 
-		 background: url(data:image/svg+xml;utf8,
-		 	<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20'>
-    	 	<circle cx='5' cy='5' r='5' />
-		 	</svg>) no-repeat; 
-		 background-color: rgba(244, 67, 54, 0.7);
-		}
-		/*green marker (toolbar) */
-		.leaflet-draw-toolbar .leaflet-draw-draw-G {
-		 background: url(data:image/svg+xml;utf8,
-		 	<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20'>
-    	 	<circle cx='5' cy='5' r='5' />
-		 	</svg>) no-repeat;
-		 background-color: rgba(76, 175, 80, 0.7);
-		}
-    </style>
+	<!--Links to Leaflet Loacte Control Plugin https://github.com/domoritz/leaflet-locatecontrol-->
+	<link rel="stylesheet" href="css/L.Control.Locate.min.css">
+
+	<script src="js/L.Control.Locate.min.js"></script>
+
+	<!--Link to style.css-->
+	<link rel="stylesheet" href="css/style.css" />
+
 </head>
- 
+
 <body>
-    {{{body}}} 
+
+	{{#if error}}
+	<p class="alert alert-warning">{{error}}</p>
+	{{/if}}
+
+	{{#if success}}
+	<p class="alert alert-success">{{success}}</p>
+	{{/if}}
+
+	{{#if notice}}
+	<p class="alert alert-info">{{notice}}</p>
+	{{/if}}
+
+	<!--where our other templates will insert-->
+	{{{body}}}
+
 </body>
- 
+
 </html>

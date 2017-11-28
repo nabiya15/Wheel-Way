@@ -1,9 +1,18 @@
+	<div id="mainDiv">
+		<div class="card" >
+			<img class="card-img-top cardImg" src="images/map.gif" alt="Card image cap">
+			<div class="card-body">
+				<form id="signin" name="signin" method="post" action="/signin">
+					<input class="form-control" type="text" placeholder="&#xf003;     Email address" name="email" style="font-family: FontAwesome " >	
+					<input class="form-control" type="password" placeholder="&#xf023;      Password" name="password" style="font-family:FontAwesome">
 
-    <form id="signin" name="signin" method="post" action="signin">
-        <label for="email">Email Address</label>
-        <input class="text" name="email" type="text" />
-        <label for="password">Password</label>
-        <input name="password" type="password" />
-        <input class="btn" type="submit" value="Sign In" />
-    </form>
- 
+					<button class="btn" type="submit"><i class="fa fa-map fa-fw"></i> SIGN IN </button>
+					<div class="alert alert-info" role="alert">
+						<a href="/signup">Not a user? Register.</a>
+					</div>
+				</form>
+				
+			</div>
+		</div>
+
+	</div>
