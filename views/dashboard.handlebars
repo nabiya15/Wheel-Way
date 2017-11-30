@@ -256,28 +256,40 @@ map.on('draw:created', function(e) {
 		// Submit form button 
 		$("#submit-btn").click(function(e){
 			e.preventDefault();
+
 			markers.push(marker)
 			console.log("Marker with id " + marker._id + " added to array")
-			// console.log("Markers array: " + markers);
 			console.log(markers);
+
 			map.closePopup();
+
 			var date = $("#date").val().trim();
 			var markerType = $("#marker-type").val().trim();
 			var description = $("#description").val().trim();
-			var lat = $("#lat").val().trim();
-			var lng = $("#lng").val().trim();
-			console.log("Marker information: ");
-			console.log("===========================");
-			console.log("Date: " + date);
-			console.log("Marker type: " + markerType);
-			console.log("Description: " + description);
-			console.log("Lat: " + lat);
-			console.log("Lng: " + lng);
-			console.log("===========================");
+			var latString = $("#lat").val().trim();
+			var lngString = $("#lng").val().trim();
+			var lat = parseFloat(latString);
+			var lng = parseFloat(lngString);
 
+			// Make a newPin object
+			var newPin = {
+				date: date,
+				markerType: markerType,
+				description: description,
+				lat: lat,
+				lng: lng
+			}; 
+
+			console.log(newPin);
+
+			// Send an AJAX-POST request 
+			$.post("/api/new", newPin)
+				// On success
+				.done(function() {
+					console.log("Pin successfully added to database");
+				})
 
 		// ** TODO: When user clicks 'Submit' button 
-			// Save user input (date, location, type of marker, and description) to database
 			// Delete the old marker icon 
 			// Send back specific custom marker based on the TYPE valye from user input 
 				// Send back as argument ?
@@ -285,11 +297,8 @@ map.on('draw:created', function(e) {
 				// Informational pop-up when clicked 
 			});
 
-		// Other way to submit form; keeping here just in case 
-		// $("#form").submit(function(e){
-		// 	e.preventDefault();
-		// 	// addMarker();		
-		// });
+		// ** TODO: When the map loads
+			// Display all saved pins 
 
 	});
 
