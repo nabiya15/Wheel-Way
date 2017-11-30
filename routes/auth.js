@@ -4,7 +4,7 @@ module.exports = function(app, passport) {
   function isLoggedIn(req, res, next) {
      if (req.isAuthenticated())
          return next();
-     //res.redirect('/dashboard');
+     res.redirect('/dashboard');
  }
 
   app.get("/fail", authController.fail);
