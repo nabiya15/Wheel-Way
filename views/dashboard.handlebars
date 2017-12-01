@@ -15,6 +15,29 @@
 
 <!--Script-->
 <script>
+	// Function to grab pins from database 
+	function getPins() {
+		$.get("/api/pins", function(data) {
+
+			for (var i = 0; i < data.length; i++) {
+				
+				var newIcon = L.icon({
+	    		iconUrl: 'images/new-pins/' + data[i].markerType + '.png',
+	    		iconSize: [85, 85], // size of the icon
+	    		iconAnchor: [50, 70], // point of the icon which will correspond to marker's location
+	    		popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+				});				
+
+				L.marker( [data[i].lat, data[i].lng], {icon: newIcon} )
+      			.bindPopup( '<h1>' + data[i].markerType + '</h1>' )
+      			.addTo( map );
+			}
+
+		})
+	};
+
+	getPins();
+
 
 	// Adding Mapbox Streets tile layer
 	var mapBoxAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
@@ -73,15 +96,7 @@
 
 	//****************************************************************************
 
-	// MakiMarkers (Map icons)
-  		// ** Must npm install for this to work
-  	// L.MakiMarkers.accessToken 
-  	// = "pk.eyJ1Ijoic3p1bmppYyIsImEiOiJjamE1a3FudDY0bHI2MnBwb2d5eTNueWs1In0.kbvyZYrCsTeQP4yvdWCdig";
-
-  	// var obstructionIcon = L.MakiMarkers.icon({icon: "roadblock", color: "#f44336", size: "l"});
-  	// var supportIcon = L.MakiMarkers.icon({icon: "disability", color: "#4caf50", size: "l"});
-
-  	// CUSTOM ICONS 
+ 	// CUSTOM ICONS 
 
   	// Curb icon
   	var curbIcon = L.icon({
@@ -139,6 +154,7 @@
 	    popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
 	});
 
+ 	
 
 	// Creating temp layer to store new features 
 	// TOOLBAR MARKERS 	
@@ -322,7 +338,9 @@ map.on('draw:created', function(e) {
 	var marker;
 	var coords = e.layer._latlng;
 	var id;
-	var markerTypesForm;
+	var markerType;
+	var title;
+	var markerIcon;
 
 	if (markers.length < 1) {
 		id = 0
@@ -330,45 +348,60 @@ map.on('draw:created', function(e) {
 		id = markers[markers.length - 1]._id + 1
 	};  	
 
-		// console.log("Marker layer type: " + e.layerType);
-		// console.log(this);
-
-
 		switch (e.layerType) {
-			case 'R': // If a red (R) marker is placed
-			marker = L.marker(coords, { icon: obstructionIcon });
-			markerTypesForm = 
-			'<div class="form-group">'+
-			'<label class="control-label col-sm-5"><strong>Obstruction Type: </strong></label>'+
-			'<select class="form-control" id="marker-type" name="marker-type">'+
-			'<option value="barrier">Barrier</option>'+
-			'<option value="construction">Construction</option>'+
-			'<option value="curb">Curb</option>'+
-			'<option value="stairs">Stairs</option>'+
-			'<option value="rough-road">Rough road</option>'+
-			'</select>'+ 
-			'</div>'
+			case 'Curb': // If a red curb marker is placed
+			marker = L.marker(coords, { icon: curbIcon });
+			title = '<h1 align="center"><strong>Curb</strong></h1>';
+			markerType = '<input style="display: none;" type="text" id="markerType" name="markerType" value="Curb" />'
 			break;
 
-			case 'G': // If a green (G) marker is placed
-			marker = L.marker(coords, { icon: supportIcon });
-			markerTypesForm = 
-			'<div class="form-group">'+
-			'<label class="control-label col-sm-5"><strong>Support Type: </strong></label>'+
-			'<select class="form-control" id="marker-type" name="marker-type">'+
-			'<option value="curb-cut">Curb cut</option>'+
-			'<option value="ramp">Ramp</option>'+
-			'<option value="elevator">Elevator</option>'+
-			'</select>'+ 
-			'</div>'		
+			case 'Stairs': // If a stairs marker is placed
+			marker = L.marker(coords, { icon: stairsIcon });
+			title = '<h1 style="text-align:center"><strong>Stairs</strong></h1>';
+			markerType = '<input style="display: none;" type="text" id="markerType" name="markerType" value="Stairs" />'
+			break;
+
+			case 'Barrier': // If a barrier marker is placed
+			marker = L.marker(coords, { icon: barrierIcon });
+			title = '<h1 style="text-align:center"><strong>Barrier</strong></h1>';
+			markerType = '<input style="display: none;" type="text" id="markerType" name="markerType" value="Barrier" />'
+			break;
+
+			case 'Construction': // If a construction marker is placed
+			marker = L.marker(coords, { icon: constructionIcon });
+			title = '<h1 style="text-align:center"><strong>Construction</strong></h1>';
+			markerType = '<input style="display: none;" type="text" id="markerType" name="markerType" value="Construction" />'
+			break;
+
+			case 'Rough': // If a rough road marker is placed
+			marker = L.marker(coords, { icon: roughIcon });
+			title = '<h1 style="text-align:center"><strong>Rough Road</strong></h1>';
+			markerType = '<input style="display: none;" type="text" id="markerType" name="markerType" value="RoughRoad" />'
+			break;
+
+			case 'Cut': // If a curb cut marker is placed
+			marker = L.marker(coords, { icon: cutIcon });
+			title = '<h1 style="text-align:center"><strong>Curb Cut</strong></h1>';
+			markerType = '<input style="display: none;" type="text" id="markerType" name="markerType" value="CurbCut" />'
+			break;
+
+			case 'Ramp': // If a ramp marker is placed
+			marker = L.marker(coords, { icon: rampIcon });
+			title = '<h1 style="text-align:center"><strong>Ramp</strong></h1>';
+			markerType = '<input style="display: none;" type="text" id="markerType" name="markerType" value="Ramp" />'
+			break;
+
 		};
 
-		// Old code; keeping here just in case
-    	// var coords = e.layer._latlng;
-    	// marker = drawnItems.addLayer(e.layer);
-
     	var popupContent = 
+
     	'<form role="form" id="form" enctype="multipart/form-data" class="form-horizontal" onsubmit="addMarker()">'+
+    			
+    		// Marker type value (not seen)
+    		markerType + 
+
+    		// Marker type title
+    		title + 	
 
 	        // Date
 	        '<div class="form-group">'+
@@ -376,8 +409,6 @@ map.on('draw:created', function(e) {
 	        '<input type="date" placeholder="Required" id="date" name="date" class="form-control"/>'+ 
 	        '</div>'+
 
-			// Type of marker
-			markerTypesForm +
 
 			// Description (optional)
 			'<div class="form-group">'+
@@ -392,7 +423,6 @@ map.on('draw:created', function(e) {
 			// Submit & cancel buttons
 			'<div class="form-group">'+
 			'<div class="col-xs-6"><button type="button" class="btn btn-primary" id="cancel-btn">Cancel</button></div>'+
-				// '<div class="col-xs-6"><button type="submit" value="submit" class="btn btn-primary trigger-submit">Submit</button></div>'+
 				'<div class="col-xs-6"><button type="submit" value="submit" class="btn btn-primary trigger-submit" id="submit-btn">Submit</button></div>'+
 				'</div>'+
 
@@ -430,7 +460,7 @@ map.on('draw:created', function(e) {
 			map.closePopup();
 
 			var date = $("#date").val().trim();
-			var markerType = $("#marker-type").val().trim();
+			var markerType = $("#markerType").val().trim();
 			var description = $("#description").val().trim();
 			var latString = $("#lat").val().trim();
 			var lngString = $("#lng").val().trim();
@@ -456,13 +486,11 @@ map.on('draw:created', function(e) {
 				})
 
 		// ** TODO: When user clicks 'Submit' button 
-				// Save pins to database 
+				
 				// Disable pop-up after form is sent 
 				// Informational pop-up when clicked 
 			});
 
-		// ** TODO: When the map loads
-			// Display all saved pins 
 
 	});
 
