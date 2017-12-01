@@ -74,21 +74,79 @@
 	//****************************************************************************
 
 	// MakiMarkers (Map icons)
-  // ** Must npm install for this to work
-  L.MakiMarkers.accessToken 
-  = "pk.eyJ1Ijoic3p1bmppYyIsImEiOiJjamE1a3FudDY0bHI2MnBwb2d5eTNueWs1In0.kbvyZYrCsTeQP4yvdWCdig";
+  		// ** Must npm install for this to work
+  	// L.MakiMarkers.accessToken 
+  	// = "pk.eyJ1Ijoic3p1bmppYyIsImEiOiJjamE1a3FudDY0bHI2MnBwb2d5eTNueWs1In0.kbvyZYrCsTeQP4yvdWCdig";
 
-  var obstructionIcon = L.MakiMarkers.icon({icon: "roadblock", color: "#f44336", size: "l"});
-  var supportIcon = L.MakiMarkers.icon({icon: "disability", color: "#4caf50", size: "l"});
+  	// var obstructionIcon = L.MakiMarkers.icon({icon: "roadblock", color: "#f44336", size: "l"});
+  	// var supportIcon = L.MakiMarkers.icon({icon: "disability", color: "#4caf50", size: "l"});
 
-// Creating temp layer to store new features ** I think this is unecessary; keeping here just in case.
-	// var drawnItems = new L.FeatureGroup();
-	// map.addLayer(drawnItems); 
+  	// CUSTOM ICONS 
 
-    // Red marker (obstruction)
-    L.Draw.MarkerR = L.Draw.Marker.extend({
+  	// Curb icon
+  	var curbIcon = L.icon({
+	    iconUrl: 'images/new-pins/Curb.png',
+	    iconSize: [85, 85], // size of the icon
+	    iconAnchor: [50, 70], // point of the icon which will correspond to marker's location
+	    popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+	});
+
+	// Stairs icon
+	var stairsIcon = L.icon({
+	    iconUrl: 'images/new-pins/Stairs.png',
+	    iconSize: [85, 85], // size of the icon
+	    iconAnchor: [50, 70], // point of the icon which will correspond to marker's location
+	    popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+	});
+
+	// Barrier icon
+	var barrierIcon = L.icon({
+	    iconUrl: 'images/new-pins/Barrier.png',
+	    iconSize: [85, 85], // size of the icon
+	    iconAnchor: [50, 70], // point of the icon which will correspond to marker's location
+	    popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+	});
+
+	// Construction icon 
+	var constructionIcon = L.icon({
+	    iconUrl: 'images/new-pins/Construction.png',
+	    iconSize: [85, 85], // size of the icon
+	    iconAnchor: [50, 70], // point of the icon which will correspond to marker's location
+	    popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+	});
+
+	// Rough road icon
+	var roughIcon = L.icon({
+	    iconUrl: 'images/new-pins/RoughRoad.png',
+	    iconSize: [85, 85], // size of the icon
+	    iconAnchor: [50, 70], // point of the icon which will correspond to marker's location
+	    popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+	}); 
+
+	// Curb cut icon
+	var cutIcon = L.icon({
+	    iconUrl: 'images/new-pins/CurbCut.png',
+	    iconSize: [85, 85], // size of the icon
+	    iconAnchor: [50, 70], // point of the icon which will correspond to marker's location
+	    popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+	}); 
+
+	// Ramp icon
+	var rampIcon = L.icon({
+	    iconUrl: 'images/new-pins/Ramp.png',
+	    iconSize: [85, 85], // size of the icon
+	    iconAnchor: [50, 70], // point of the icon which will correspond to marker's location
+	    popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+	});
+
+
+	// Creating temp layer to store new features 
+	// TOOLBAR MARKERS 	
+
+	// Curb (light red)
+	L.Draw.MarkerCurb = L.Draw.Marker.extend({
     	initialize: function (map, options) {
-    		this.type = 'R';
+    		this.type = 'Curb';
 
     		L.Draw.Feature.prototype.initialize.call(this, map, options);
     	},
@@ -97,46 +155,154 @@
     		L.Draw.Marker.prototype.addHooks.call(this);
 
     		if (this._map) {
-    			this._tooltip.updateContent({ text: 'Click to place an obstruction marker.' });
+    			this._tooltip.updateContent({ text: 'Click to place a <strong>CURB</strong> marker.' });
     		}
     	}
     });
 
-	// Green marker (support)
-	L.Draw.MarkerG = L.Draw.Marker.extend({
-		initialize: function (map, options) {
-			this.type = 'G';
+	// Stairs (slightly darker red)
+	L.Draw.MarkerStairs = L.Draw.Marker.extend({
+    	initialize: function (map, options) {
+    		this.type = 'Stairs';
 
-			L.Draw.Feature.prototype.initialize.call(this, map, options);
-		},
+    		L.Draw.Feature.prototype.initialize.call(this, map, options);
+    	},
 
-		addHooks: function () {
-			L.Draw.Marker.prototype.addHooks.call(this);
+    	addHooks: function () {
+    		L.Draw.Marker.prototype.addHooks.call(this);
 
-			if (this._map) {
-				this._tooltip.updateContent({ text: 'Click to place a support marker.' });
-			}
-		}
-	});
+    		if (this._map) {
+    			this._tooltip.updateContent({ text: 'Click to place a <strong>STAIRS</strong> marker.' });
+    		}
+    	}
+    });
+
+	// Barrier (darkest red)
+	L.Draw.MarkerBarrier = L.Draw.Marker.extend({
+    	initialize: function (map, options) {
+    		this.type = 'Barrier';
+
+    		L.Draw.Feature.prototype.initialize.call(this, map, options);
+    	},
+
+    	addHooks: function () {
+    		L.Draw.Marker.prototype.addHooks.call(this);
+
+    		if (this._map) {
+    			this._tooltip.updateContent({ text: 'Click to place a <strong>BARRIER</strong> marker.' });
+    		}
+    	}
+    });
+
+	// Construction (orange)
+	L.Draw.MarkerConstruction = L.Draw.Marker.extend({
+    	initialize: function (map, options) {
+    		this.type = 'Construction';
+
+    		L.Draw.Feature.prototype.initialize.call(this, map, options);
+    	},
+
+    	addHooks: function () {
+    		L.Draw.Marker.prototype.addHooks.call(this);
+
+    		if (this._map) {
+    			this._tooltip.updateContent({ text: 'Click to place a <strong>CONSTRUCTION</strong> marker.' });
+    		}
+    	}
+    });
+
+	// Rough road (yellow)
+	L.Draw.MarkerRough = L.Draw.Marker.extend({
+    	initialize: function (map, options) {
+    		this.type = 'Rough';
+
+    		L.Draw.Feature.prototype.initialize.call(this, map, options);
+    	},
+
+    	addHooks: function () {
+    		L.Draw.Marker.prototype.addHooks.call(this);
+
+    		if (this._map) {
+    			this._tooltip.updateContent({ text: 'Click to place a <strong>ROUGH ROAD</strong> marker.' });
+    		}
+    	}
+    });
+
+	// Curb cut (light green)
+	L.Draw.MarkerCut = L.Draw.Marker.extend({
+    	initialize: function (map, options) {
+    		this.type = 'Cut';
+
+    		L.Draw.Feature.prototype.initialize.call(this, map, options);
+    	},
+
+    	addHooks: function () {
+    		L.Draw.Marker.prototype.addHooks.call(this);
+
+    		if (this._map) {
+    			this._tooltip.updateContent({ text: 'Click to place a <strong>CURB CUT</strong> marker.' });
+    		}
+    	}
+    });
+
+	// Ramp (slightly darker green)
+	L.Draw.MarkerRamp = L.Draw.Marker.extend({
+    	initialize: function (map, options) {
+    		this.type = 'Ramp';
+
+    		L.Draw.Feature.prototype.initialize.call(this, map, options);
+    	},
+
+    	addHooks: function () {
+    		L.Draw.Marker.prototype.addHooks.call(this);
+
+    		if (this._map) {
+    			this._tooltip.updateContent({ text: 'Click to place a <strong>RAMP</strong> marker.' });
+    		}
+    	}
+    });
 
 	// Hacking up L.DrawToolbar.getModeHandlers to include the 2 new versions of the marker handler
 	L.DrawToolbar.include({
 		getModeHandlers: function (map) {
 			return [
-			{
-				enabled: true,
-				handler: new L.Draw.MarkerR(map, { icon: obstructionIcon }),
-					// Leaflet default blue marker: { icon: new L.Icon.Default() })
-					title: 'Obstruction'
+				{
+					enabled: true,
+					handler: new L.Draw.MarkerCurb(map, { icon: curbIcon }),
+					title: 'CURB'
 				},
 				{
 					enabled: true,
-					handler: new L.Draw.MarkerG(map, { icon: supportIcon }),
-					// Leaflet default blue marker: { icon: new L.Icon.Default() })
-					title: 'Support'
+					handler: new L.Draw.MarkerStairs(map, { icon: stairsIcon }),
+					title: 'STAIRS'
 				},
-				];
-			}
+				{
+					enabled: true,
+					handler: new L.Draw.MarkerBarrier(map, { icon: barrierIcon }),
+					title: 'BARRIER'
+				},
+				{
+					enabled: true,
+					handler: new L.Draw.MarkerConstruction(map, { icon: constructionIcon }),
+					title: 'CONSTRUCTION'
+				},
+				{
+					enabled: true,
+					handler: new L.Draw.MarkerRough(map, { icon: roughIcon }),
+					title: 'ROUGH ROAD'
+				},
+				{
+					enabled: true,
+					handler: new L.Draw.MarkerCut(map, { icon: cutIcon }),
+					title: 'CURB CUT'
+				},
+				{
+					enabled: true,
+					handler: new L.Draw.MarkerRamp(map, { icon: rampIcon }),
+					title: 'RAMP'
+				}
+			]
+				}
 		});
 
 	// Creating draw controls and toolbar
@@ -290,10 +456,8 @@ map.on('draw:created', function(e) {
 				})
 
 		// ** TODO: When user clicks 'Submit' button 
-			// Delete the old marker icon 
-			// Send back specific custom marker based on the TYPE valye from user input 
-				// Send back as argument ?
-			// Save the new specific custom marker at the location 
+				// Save pins to database 
+				// Disable pop-up after form is sent 
 				// Informational pop-up when clicked 
 			});
 

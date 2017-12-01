@@ -39,6 +39,9 @@ app.set("view engine", "handlebars");
 //including maki markers
 app.use(express.static(__dirname+'/views/layouts'));
 
+// Serving up public folder 
+app.use(express.static('public'));
+
 //Models
 var models = require("./models");
 
