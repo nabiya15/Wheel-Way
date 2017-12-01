@@ -123,21 +123,71 @@ form .error{
 	width: 96%;
 }
 
-/* Red marker (toolbar) */
-.leaflet-draw-toolbar .leaflet-draw-draw-R { 
+/* TOOLBAR MARKERS */
+
+/* Curb (light red) */
+.leaflet-draw-toolbar .leaflet-draw-draw-Curb { 
 	background: url(data:image/svg+xml;utf8,
 		<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20'>
 		<circle cx='5' cy='5' r='5' />
 		</svg>) no-repeat; 
-	background-color: rgba(244, 67, 54, 0.7);
+	/*background-color: rgba(244, 128, 128, 1);*/
+	background-color: rgba(238, 102, 102, 1);
 }
-/*green marker (toolbar) */
-.leaflet-draw-toolbar .leaflet-draw-draw-G {
+
+/* Stairs (slightly darker red) */
+.leaflet-draw-toolbar .leaflet-draw-draw-Stairs { 
 	background: url(data:image/svg+xml;utf8,
 		<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20'>
 		<circle cx='5' cy='5' r='5' />
-		</svg>) no-repeat;
-	background-color: rgba(76, 175, 80, 0.7);
+		</svg>) no-repeat; 
+	background-color: rgba(255, 102, 102, 1);
+}
+
+/* Barrier (darkest red) */
+.leaflet-draw-toolbar .leaflet-draw-draw-Barrier { 
+	background: url(data:image/svg+xml;utf8,
+		<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20'>
+		<circle cx='5' cy='5' r='5' />
+		</svg>) no-repeat; 
+	background-color: rgba(204,102,102,1);
+}
+
+/* Construction (orange) */
+.leaflet-draw-toolbar .leaflet-draw-draw-Construction { 
+	background: url(data:image/svg+xml;utf8,
+		<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20'>
+		<circle cx='5' cy='5' r='5' />
+		</svg>) no-repeat; 
+	/*background-color: rgba(238, 153, 68, 1);*/
+	background-color: rgba(204,153,102,1);
+}
+
+/* Rough road (yellow) */
+.leaflet-draw-toolbar .leaflet-draw-draw-Rough { 
+	background: url(data:image/svg+xml;utf8,
+		<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20'>
+		<circle cx='5' cy='5' r='5' />
+		</svg>) no-repeat; 
+	background-color: rgba(255,255,153,1);
+}
+
+/* Curb cut (light green) */
+.leaflet-draw-toolbar .leaflet-draw-draw-Cut { 
+	background: url(data:image/svg+xml;utf8,
+		<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20'>
+		<circle cx='5' cy='5' r='5' />
+		</svg>) no-repeat; 
+	background-color: rgba(153, 255, 204, 1);
+}
+
+/* Ramp (slightly darker green) */
+.leaflet-draw-toolbar .leaflet-draw-draw-Ramp { 
+	background: url(data:image/svg+xml;utf8,
+		<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20'>
+		<circle cx='5' cy='5' r='5' />
+		</svg>) no-repeat; 
+	background-color: rgba(102,204,153,1);
 }
 
 /* popup form */
