@@ -9,7 +9,6 @@ module.exports = function(app) {
 		console.log(req.body);
 
 		db.Pin.create({
-			date: req.body.date,
 			markerType: req.body.markerType,
 			description: req.body.description,
 			lat: req.body.lat,
@@ -26,6 +25,16 @@ module.exports = function(app) {
 		.then(function(results) {
 			res.json(results)
 			console.log(results);
+		})
+	})
+
+	app.delete("/api/pins/:id", function(req, res) {
+		db.Pin.destory({
+			where: {
+				id: req.params.id
+			}
+		}).then(function(dbPin) {
+			res.json(dbPin);
 		})
 	})
 

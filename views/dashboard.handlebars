@@ -15,6 +15,26 @@
 
 <!--Script-->
 <script>
+	
+	function deletePin(e) {
+		console.log($(this));
+		console.log($(this)[0].map._popup._latlng);
+		console.log($(this)[0].map._popup._latlng.lat);
+		console.log($(this)[0].map._popup._latlng.lng);
+		//console.log(id);
+		var id = $("#id").val();
+		console.log(id);		
+
+		$.ajax({
+			method: 'DELETE',
+			url: '/api/pins/' + id
+		}).done(function(e) {
+			console.log('done');
+		})
+
+	}
+
+
 	// Function to grab pins from database 
 	function getPins() {
 		$.get("/api/pins", function(data) {
@@ -26,15 +46,35 @@
 	    		iconSize: [85, 85], // size of the icon
 	    		iconAnchor: [50, 70], // point of the icon which will correspond to marker's location
 	    		popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
-				});				
+				});
+
+				var id = data[i].id;		
 
 				L.marker( [data[i].lat, data[i].lng], {icon: newIcon} )
-      			.bindPopup( '<h1>' + data[i].markerType + '</h1>' )
+      			.bindPopup( 
+      				// ID (INVISIBLE)
+      				'<input style="display: none;" type="text" id="id" name="id" value="'+ id +'"/>'+
+
+      				// MARKER TITLE
+      				'<h2>' + data[i].markerType + '</h2> <h4>' 
+      				// TIMESTAMP
+      				+ data[i].createdAt + '</h4>'
+      				// USER BYLINE
+
+      				// DESCRIPTION
+      				+ '<h5>' + data[i].description + '</h5>' +
+
+      				// DELETE BUTTON 
+      				'<div><button onclick="deletePin()" type="button" class="btn btn-primary" id="delete-btn">Delete</button></div>'
+      			)
       			.addTo( map );
 			}
 
 		})
+
+
 	};
+
 
 	getPins();
 
@@ -74,27 +114,6 @@
 	console.log(lc);
 	lc.start();
 
-
-	//****************************************************************************
-	//Code to add search options for the current location
-	//import
-/*	import{OpenStreetMapProvider} from "leaflet-geosearch";
-	const form = document.querySelector('form');
-	const input = form.querySelector('input[type="text"]');
-
-	form.addEventListener('submit', async (event) => {
-		event.preventDefault();
-
-		const results = await provider.search({ query: input.value });
-  	console.log(results); // » [{}, {}, {}, ...]
-	});
-	// setup 
-	const provider = new OpenStreetMapProvider();
-	// search
-	const results = await provider.search({query: input.value});*/
-
-
-	//****************************************************************************
 
  	// CUSTOM ICONS 
 
@@ -401,14 +420,7 @@ map.on('draw:created', function(e) {
     		markerType + 
 
     		// Marker type title
-    		title + 	
-
-	        // Date
-	        '<div class="form-group">'+
-	        '<label class="control-label col-sm-5"><strong>Date: </strong></label>'+
-	        '<input type="date" placeholder="Required" id="date" name="date" class="form-control"/>'+ 
-	        '</div>'+
-
+    		title + 
 
 			// Description (optional)
 			'<div class="form-group">'+
@@ -459,7 +471,6 @@ map.on('draw:created', function(e) {
 
 			map.closePopup();
 
-			var date = $("#date").val().trim();
 			var markerType = $("#markerType").val().trim();
 			var description = $("#description").val().trim();
 			var latString = $("#lat").val().trim();
@@ -469,7 +480,6 @@ map.on('draw:created', function(e) {
 
 			// Make a newPin object
 			var newPin = {
-				date: date,
 				markerType: markerType,
 				description: description,
 				lat: lat,
@@ -485,11 +495,10 @@ map.on('draw:created', function(e) {
 					console.log("Pin successfully added to database");
 				})
 
-		// ** TODO: When user clicks 'Submit' button 
-				
-				// Disable pop-up after form is sent 
-				// Informational pop-up when clicked 
+ 
 			});
+
+
 
 
 	});
