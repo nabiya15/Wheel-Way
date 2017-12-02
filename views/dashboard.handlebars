@@ -45,9 +45,9 @@ function deletePin(e) {
 
 				var id = data[i].id;	
 				//var createdDate = moment(data[i].createdAt).format("LLLL");
-				var pinBy = data[i].User.firstname;
-			/*	pinBy = '<h5>'
-				pinBy.text("Posted by: " + pin.User.firstname);
+				//var pinBy = data[i].User.firstname;
+		/*	pinBy = '<h5>'
+				pinBy.text("Posted by: " + data[i].User.firstname);
 				pinBy.css({
 					float: "right",
 					color: "blue",
@@ -431,7 +431,7 @@ map.on('draw:created', function(e) {
 			// Description (optional)
 			'<div class="form-group">'+
 			'<label class="control-label col-sm-5"><strong>Description (optional): </strong></label>'+
-			'<textarea class="form-control" rows="6" id="description" name="description"></textarea>'+
+			'<textarea class="form-control" rows="4" id="description" name="description"></textarea>'+
 			'</div>'+
 
 			// Location coordinates (not seen)
