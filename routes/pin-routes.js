@@ -29,7 +29,7 @@ module.exports = function(app) {
 	})
 
 	app.delete("/api/pins/:id", function(req, res) {
-		db.Pin.destory({
+		db.Pin.destroy({
 			where: {
 				id: req.params.id
 			}
