@@ -5,8 +5,11 @@ var exports = module.exports = {}
 }*/ 
 
 exports.home = function(req, res) {
-
-    res.render('home');
+	if(req.user){
+    	res.redirect('/dashboard');
+	}else{
+		res.render("home");
+	}
 }
 
 exports.signup = function(req, res) {
@@ -19,7 +22,6 @@ exports.signin = function(req,res){
 }
 
 exports.dashboard = function(req, res){
-	console.log(req.user);
 	res.render("dashboard",{user:req.user});
 }
 

@@ -3,19 +3,19 @@
 
 <h4 class="display4" >Welcome {{user.firstname}}</h4>
 
-	<!-- <input type="text" class="form-control" placeholder="&#xF002; Search location..." style="font-family:Arial, FontAwesome" id="searchbox"/> -->
-	<div id="map">
-		
-	</div>
+<!-- <input type="text" class="form-control" placeholder="&#xF002; Search location..." style="font-family:Arial, FontAwesome" id="searchbox"/> -->
+<div id="map">
+
+</div>
 
 <!--Script-->
 <script>
-	
-	function deletePin(e) {
-		console.log($(this));
-		console.log($(this)[0].map._popup._latlng);
-		console.log($(this)[0].map._popup._latlng.lat);
-		console.log($(this)[0].map._popup._latlng.lng);
+
+function deletePin(e) {
+	console.log($(this));
+	console.log($(this)[0].map._popup._latlng);
+	console.log($(this)[0].map._popup._latlng.lat);
+	console.log($(this)[0].map._popup._latlng.lng);
 		//console.log(id);
 		var id = $("#id").val();
 		console.log(id);		
@@ -37,32 +37,43 @@
 			for (var i = 0; i < data.length; i++) {
 				
 				var newIcon = L.icon({
-	    		iconUrl: 'images/new-pins/' + data[i].markerType + '.png',
-	    		iconSize: [85, 85], // size of the icon
-	    		iconAnchor: [50, 70], // point of the icon which will correspond to marker's location
-	    		popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
-				});
+					iconUrl: 'images/new-pins/' + data[i].markerType + '.png',
+		    		iconSize: [85, 85], // size of the icon
+		    		iconAnchor: [50, 70], // point of the icon which will correspond to marker's location
+		    		popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+	    		});
 
-				var id = data[i].id;		
+				var id = data[i].id;	
+				//var createdDate = moment(data[i].createdAt).format("LLLL");
+				var pinBy = data[i].User.firstname;
+			/*	pinBy = '<h5>'
+				pinBy.text("Posted by: " + pin.User.firstname);
+				pinBy.css({
+					float: "right",
+					color: "blue",
+					"margin-top":
+					"-10px"
+				});*/
+
 
 				L.marker( [data[i].lat, data[i].lng], {icon: newIcon} )
-      			.bindPopup( 
+				.bindPopup( 
       				// ID (INVISIBLE)
       				'<input style="display: none;" type="text" id="id" name="id" value="'+ id +'"/>'+
 
       				// MARKER TITLE
       				'<h2>' + data[i].markerType + '</h2> <h4>' 
       				// TIMESTAMP
-      				+ data[i].createdAt + '</h4>'
+      				//+ createdDate+ '</h4>'
       				// USER BYLINE
-
+      				//+ pinBy
       				// DESCRIPTION
       				+ '<h5>' + data[i].description + '</h5>' +
 
       				// DELETE BUTTON 
       				'<div><button onclick="deletePin()" type="button" class="btn btn-primary" id="delete-btn">Delete</button></div>'
-      			)
-      			.addTo( map );
+      				)
+				.addTo( map );
 			}
 
 		})
@@ -81,9 +92,9 @@
 
 	
 	var grayscale = L.tileLayer(mapBoxUrl, {id:"mapbox.light", attribution : mapBoxAttr}),
-		streets = L.tileLayer(mapBoxUrl, {id:"mapbox.streets", attribution : mapBoxAttr}),
-		satellite = L.tileLayer(mapBoxUrl, {id:"mapbox.satellite", attribution : mapBoxAttr});
-		
+	streets = L.tileLayer(mapBoxUrl, {id:"mapbox.streets", attribution : mapBoxAttr}),
+	satellite = L.tileLayer(mapBoxUrl, {id:"mapbox.satellite", attribution : mapBoxAttr});
+
 
 	var map = L.map('map',{
 		center : [30.307182, -97.755996],
@@ -114,7 +125,7 @@
 
   	// Curb icon
   	var curbIcon = L.icon({
-	    iconUrl: 'images/new-pins/Curb.png',
+  		iconUrl: 'images/new-pins/Curb.png',
 	    iconSize: [85, 85], // size of the icon
 	    iconAnchor: [50, 70], // point of the icon which will correspond to marker's location
 	    popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
@@ -122,7 +133,7 @@
 
 	// Stairs icon
 	var stairsIcon = L.icon({
-	    iconUrl: 'images/new-pins/Stairs.png',
+		iconUrl: 'images/new-pins/Stairs.png',
 	    iconSize: [85, 85], // size of the icon
 	    iconAnchor: [50, 70], // point of the icon which will correspond to marker's location
 	    popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
@@ -130,7 +141,7 @@
 
 	// Barrier icon
 	var barrierIcon = L.icon({
-	    iconUrl: 'images/new-pins/Barrier.png',
+		iconUrl: 'images/new-pins/Barrier.png',
 	    iconSize: [85, 85], // size of the icon
 	    iconAnchor: [50, 70], // point of the icon which will correspond to marker's location
 	    popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
@@ -138,7 +149,7 @@
 
 	// Construction icon 
 	var constructionIcon = L.icon({
-	    iconUrl: 'images/new-pins/Construction.png',
+		iconUrl: 'images/new-pins/Construction.png',
 	    iconSize: [85, 85], // size of the icon
 	    iconAnchor: [50, 70], // point of the icon which will correspond to marker's location
 	    popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
@@ -146,7 +157,7 @@
 
 	// Rough road icon
 	var roughIcon = L.icon({
-	    iconUrl: 'images/new-pins/RoughRoad.png',
+		iconUrl: 'images/new-pins/RoughRoad.png',
 	    iconSize: [85, 85], // size of the icon
 	    iconAnchor: [50, 70], // point of the icon which will correspond to marker's location
 	    popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
@@ -154,7 +165,7 @@
 
 	// Curb cut icon
 	var cutIcon = L.icon({
-	    iconUrl: 'images/new-pins/CurbCut.png',
+		iconUrl: 'images/new-pins/CurbCut.png',
 	    iconSize: [85, 85], // size of the icon
 	    iconAnchor: [50, 70], // point of the icon which will correspond to marker's location
 	    popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
@@ -162,178 +173,178 @@
 
 	// Ramp icon
 	var rampIcon = L.icon({
-	    iconUrl: 'images/new-pins/Ramp.png',
+		iconUrl: 'images/new-pins/Ramp.png',
 	    iconSize: [85, 85], // size of the icon
 	    iconAnchor: [50, 70], // point of the icon which will correspond to marker's location
 	    popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
 	});
 
- 	
+
 
 	// Creating temp layer to store new features 
 	// TOOLBAR MARKERS 	
 
 	// Curb (light red)
 	L.Draw.MarkerCurb = L.Draw.Marker.extend({
-    	initialize: function (map, options) {
-    		this.type = 'Curb';
+		initialize: function (map, options) {
+			this.type = 'Curb';
 
-    		L.Draw.Feature.prototype.initialize.call(this, map, options);
-    	},
+			L.Draw.Feature.prototype.initialize.call(this, map, options);
+		},
 
-    	addHooks: function () {
-    		L.Draw.Marker.prototype.addHooks.call(this);
+		addHooks: function () {
+			L.Draw.Marker.prototype.addHooks.call(this);
 
-    		if (this._map) {
-    			this._tooltip.updateContent({ text: 'Click to place a <strong>CURB</strong> marker.' });
-    		}
-    	}
-    });
+			if (this._map) {
+				this._tooltip.updateContent({ text: 'Click to place a <strong>CURB</strong> marker.' });
+			}
+		}
+	});
 
 	// Stairs (slightly darker red)
 	L.Draw.MarkerStairs = L.Draw.Marker.extend({
-    	initialize: function (map, options) {
-    		this.type = 'Stairs';
+		initialize: function (map, options) {
+			this.type = 'Stairs';
 
-    		L.Draw.Feature.prototype.initialize.call(this, map, options);
-    	},
+			L.Draw.Feature.prototype.initialize.call(this, map, options);
+		},
 
-    	addHooks: function () {
-    		L.Draw.Marker.prototype.addHooks.call(this);
+		addHooks: function () {
+			L.Draw.Marker.prototype.addHooks.call(this);
 
-    		if (this._map) {
-    			this._tooltip.updateContent({ text: 'Click to place a <strong>STAIRS</strong> marker.' });
-    		}
-    	}
-    });
+			if (this._map) {
+				this._tooltip.updateContent({ text: 'Click to place a <strong>STAIRS</strong> marker.' });
+			}
+		}
+	});
 
 	// Barrier (darkest red)
 	L.Draw.MarkerBarrier = L.Draw.Marker.extend({
-    	initialize: function (map, options) {
-    		this.type = 'Barrier';
+		initialize: function (map, options) {
+			this.type = 'Barrier';
 
-    		L.Draw.Feature.prototype.initialize.call(this, map, options);
-    	},
+			L.Draw.Feature.prototype.initialize.call(this, map, options);
+		},
 
-    	addHooks: function () {
-    		L.Draw.Marker.prototype.addHooks.call(this);
+		addHooks: function () {
+			L.Draw.Marker.prototype.addHooks.call(this);
 
-    		if (this._map) {
-    			this._tooltip.updateContent({ text: 'Click to place a <strong>BARRIER</strong> marker.' });
-    		}
-    	}
-    });
+			if (this._map) {
+				this._tooltip.updateContent({ text: 'Click to place a <strong>BARRIER</strong> marker.' });
+			}
+		}
+	});
 
 	// Construction (orange)
 	L.Draw.MarkerConstruction = L.Draw.Marker.extend({
-    	initialize: function (map, options) {
-    		this.type = 'Construction';
+		initialize: function (map, options) {
+			this.type = 'Construction';
 
-    		L.Draw.Feature.prototype.initialize.call(this, map, options);
-    	},
+			L.Draw.Feature.prototype.initialize.call(this, map, options);
+		},
 
-    	addHooks: function () {
-    		L.Draw.Marker.prototype.addHooks.call(this);
+		addHooks: function () {
+			L.Draw.Marker.prototype.addHooks.call(this);
 
-    		if (this._map) {
-    			this._tooltip.updateContent({ text: 'Click to place a <strong>CONSTRUCTION</strong> marker.' });
-    		}
-    	}
-    });
+			if (this._map) {
+				this._tooltip.updateContent({ text: 'Click to place a <strong>CONSTRUCTION</strong> marker.' });
+			}
+		}
+	});
 
 	// Rough road (yellow)
 	L.Draw.MarkerRough = L.Draw.Marker.extend({
-    	initialize: function (map, options) {
-    		this.type = 'Rough';
+		initialize: function (map, options) {
+			this.type = 'Rough';
 
-    		L.Draw.Feature.prototype.initialize.call(this, map, options);
-    	},
+			L.Draw.Feature.prototype.initialize.call(this, map, options);
+		},
 
-    	addHooks: function () {
-    		L.Draw.Marker.prototype.addHooks.call(this);
+		addHooks: function () {
+			L.Draw.Marker.prototype.addHooks.call(this);
 
-    		if (this._map) {
-    			this._tooltip.updateContent({ text: 'Click to place a <strong>ROUGH ROAD</strong> marker.' });
-    		}
-    	}
-    });
+			if (this._map) {
+				this._tooltip.updateContent({ text: 'Click to place a <strong>ROUGH ROAD</strong> marker.' });
+			}
+		}
+	});
 
 	// Curb cut (light green)
 	L.Draw.MarkerCut = L.Draw.Marker.extend({
-    	initialize: function (map, options) {
-    		this.type = 'Cut';
+		initialize: function (map, options) {
+			this.type = 'Cut';
 
-    		L.Draw.Feature.prototype.initialize.call(this, map, options);
-    	},
+			L.Draw.Feature.prototype.initialize.call(this, map, options);
+		},
 
-    	addHooks: function () {
-    		L.Draw.Marker.prototype.addHooks.call(this);
+		addHooks: function () {
+			L.Draw.Marker.prototype.addHooks.call(this);
 
-    		if (this._map) {
-    			this._tooltip.updateContent({ text: 'Click to place a <strong>CURB CUT</strong> marker.' });
-    		}
-    	}
-    });
+			if (this._map) {
+				this._tooltip.updateContent({ text: 'Click to place a <strong>CURB CUT</strong> marker.' });
+			}
+		}
+	});
 
 	// Ramp (slightly darker green)
 	L.Draw.MarkerRamp = L.Draw.Marker.extend({
-    	initialize: function (map, options) {
-    		this.type = 'Ramp';
+		initialize: function (map, options) {
+			this.type = 'Ramp';
 
-    		L.Draw.Feature.prototype.initialize.call(this, map, options);
-    	},
+			L.Draw.Feature.prototype.initialize.call(this, map, options);
+		},
 
-    	addHooks: function () {
-    		L.Draw.Marker.prototype.addHooks.call(this);
+		addHooks: function () {
+			L.Draw.Marker.prototype.addHooks.call(this);
 
-    		if (this._map) {
-    			this._tooltip.updateContent({ text: 'Click to place a <strong>RAMP</strong> marker.' });
-    		}
-    	}
-    });
+			if (this._map) {
+				this._tooltip.updateContent({ text: 'Click to place a <strong>RAMP</strong> marker.' });
+			}
+		}
+	});
 
 	// Hacking up L.DrawToolbar.getModeHandlers to include the 2 new versions of the marker handler
 	L.DrawToolbar.include({
 		getModeHandlers: function (map) {
 			return [
-				{
-					enabled: true,
-					handler: new L.Draw.MarkerCurb(map, { icon: curbIcon }),
-					title: 'CURB'
-				},
-				{
-					enabled: true,
-					handler: new L.Draw.MarkerStairs(map, { icon: stairsIcon }),
-					title: 'STAIRS'
-				},
-				{
-					enabled: true,
-					handler: new L.Draw.MarkerBarrier(map, { icon: barrierIcon }),
-					title: 'BARRIER'
-				},
-				{
-					enabled: true,
-					handler: new L.Draw.MarkerConstruction(map, { icon: constructionIcon }),
-					title: 'CONSTRUCTION'
-				},
-				{
-					enabled: true,
-					handler: new L.Draw.MarkerRough(map, { icon: roughIcon }),
-					title: 'ROUGH ROAD'
-				},
-				{
-					enabled: true,
-					handler: new L.Draw.MarkerCut(map, { icon: cutIcon }),
-					title: 'CURB CUT'
-				},
-				{
-					enabled: true,
-					handler: new L.Draw.MarkerRamp(map, { icon: rampIcon }),
-					title: 'RAMP'
-				}
+			{
+				enabled: true,
+				handler: new L.Draw.MarkerCurb(map, { icon: curbIcon }),
+				title: 'CURB'
+			},
+			{
+				enabled: true,
+				handler: new L.Draw.MarkerStairs(map, { icon: stairsIcon }),
+				title: 'STAIRS'
+			},
+			{
+				enabled: true,
+				handler: new L.Draw.MarkerBarrier(map, { icon: barrierIcon }),
+				title: 'BARRIER'
+			},
+			{
+				enabled: true,
+				handler: new L.Draw.MarkerConstruction(map, { icon: constructionIcon }),
+				title: 'CONSTRUCTION'
+			},
+			{
+				enabled: true,
+				handler: new L.Draw.MarkerRough(map, { icon: roughIcon }),
+				title: 'ROUGH ROAD'
+			},
+			{
+				enabled: true,
+				handler: new L.Draw.MarkerCut(map, { icon: cutIcon }),
+				title: 'CURB CUT'
+			},
+			{
+				enabled: true,
+				handler: new L.Draw.MarkerRamp(map, { icon: rampIcon }),
+				title: 'RAMP'
+			}
 			]
-				}
-		});
+		}
+	});
 
 	// Creating draw controls and toolbar
 	var drawControl = new L.Control.Draw({
@@ -362,7 +373,7 @@ map.on('draw:created', function(e) {
 		id = markers[markers.length - 1]._id + 1
 	};  	
 
-		switch (e.layerType) {
+	switch (e.layerType) {
 			case 'Curb': // If a red curb marker is placed
 			marker = L.marker(coords, { icon: curbIcon });
 			title = '<h1 align="center"><strong>Curb</strong></h1>';
@@ -407,10 +418,10 @@ map.on('draw:created', function(e) {
 
 		};
 
-    	var popupContent = 
+		var popupContent = 
 
-    	'<form role="form" id="form" enctype="multipart/form-data" class="form-horizontal" onsubmit="addMarker()">'+
-    			
+		'<form role="form" id="form" enctype="multipart/form-data" class="form-horizontal" onsubmit="addMarker()">'+
+
     		// Marker type value (not seen)
     		markerType + 
 
@@ -430,23 +441,23 @@ map.on('draw:created', function(e) {
 			// Submit & cancel buttons
 			'<div class="form-group">'+
 			'<div class="col-xs-6"><button type="button" class="btn btn-primary" id="cancel-btn">Cancel</button></div>'+
-				'<div class="col-xs-6"><button type="submit" value="submit" class="btn btn-primary trigger-submit" id="submit-btn">Submit</button></div>'+
-				'</div>'+
+			'<div class="col-xs-6"><button type="submit" value="submit" class="btn btn-primary trigger-submit" id="submit-btn">Submit</button></div>'+
+			'</div>'+
 
-				'</form>';
+			'</form>';
 
-				marker
-				.bindPopup(popupContent,
-				{
-					keepInView: true,
-					closeButton: false 
-				})
-				.addTo(map)
-				.openPopup()
-				._id = id
+			marker
+			.bindPopup(popupContent,
+			{
+				keepInView: true,
+				closeButton: false 
+			})
+			.addTo(map)
+			.openPopup()
+			._id = id
 
 
-				console.log("Marker id: " + marker._id);
+			console.log("Marker id: " + marker._id);
 
 
 		// Cancel form button (deletes marker, does not add to array)
@@ -490,7 +501,7 @@ map.on('draw:created', function(e) {
 					console.log("Pin successfully added to database");
 				})
 
- 
+
 			});
 
 
