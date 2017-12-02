@@ -31,6 +31,7 @@ module.exports = function(sequelize, Sequelize) {
             type: Sequelize.FLOAT,
             allowNull: false
         },
+        
  
     });
  

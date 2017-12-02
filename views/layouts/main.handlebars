@@ -5,23 +5,27 @@
 	<title>WheelWays</title>
 	<title>Wheelway Map</title>
 	<!--Bootstrap-->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 
 	<!-- Google fonts API-->
 	<link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">
 
 	<!--Font awesome CDN-->
 	<script src="https://use.fontawesome.com/1de7481f60.js"></script>
-
-	<!--jQuery-->
-	<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+	<!-- Jquery CDN-->
+	<script
+	src="https://code.jquery.com/jquery-3.2.1.js"
+	integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+	crossorigin="anonymous"></script>
+	<!-- Bootstrap Javascripts -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 
 	<!-- jQuery validate CDN-->
 	<script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
-
 	<!-- link to js file for siginin validation-->
 	<script src= "js/signinValidation.js"></script>
-
+	
 	<!--Leaflet CSS-->
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin="" />
 
@@ -49,21 +53,35 @@
 
 <body>
 
-	{{#if error}}
-	<p class="alert alert-warning">{{error}}</p>
-	{{/if}}
+	<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+		<a class="navbar-brand" href="/"><img src="/images/wheelway2.png" style="width:300px; height:65px" alt="Wheelway"></a>
 
-	{{#if success}}
-	<p class="alert alert-success">{{success}}</p>
-	{{/if}}
+		<div class="collapse navbar-collapse" id="navbarsExampleDefault">
+			<ul class="navbar-nav ml-auto ">
+				{{#if user}}
+				<li class="nav-item ">
+					<a class="nav-link" href="/dashboard">Dashboard</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/logout">Logout</a>
+				</li>
+				{{else}}
+				<li class="nav-item ">
+					<a class="nav-link" href="/signin">Login</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/signup">Register</a>
+				</li>
+				{{/if}}
+			</nav>
 
-	{{#if notice}}
-	<p class="alert alert-info">{{notice}}</p>
-	{{/if}}
+			<!--where our other templates will insert-->
+			{{{body}}}
 
-	<!--where our other templates will insert-->
-	{{{body}}}
+			<footer class="footer">
+				<span class="text-muted"> &copy Wheelway 2017.</span>
+			</footer>
 
-</body>
+		</body>
 
-</html>
+		</html>

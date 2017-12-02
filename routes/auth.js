@@ -7,7 +7,9 @@ module.exports = function(app, passport) {
      res.redirect('/dashboard');
  }
 
-  app.get("/fail", authController.fail);
+ app.get("/", authController.home);
+
+ app.get("/fail", authController.fail);
 
  app.get('/signup', authController.signup);
  app.post('/signup', passport.authenticate('local-signup', {
