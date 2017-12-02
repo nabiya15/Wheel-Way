@@ -19,7 +19,14 @@ module.exports = function(app) {
 			res.end();
 		});
 
-
 	});
+
+	app.get("/api/pins", function(req, res) {
+		db.Pin.findAll({})
+		.then(function(results) {
+			res.json(results)
+			console.log(results);
+		})
+	})
 
 };
