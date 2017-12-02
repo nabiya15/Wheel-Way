@@ -5,7 +5,7 @@ module.exports = function(passport,user){
  	var LocalStrategy = require('passport-local').Strategy;
 
 passport.serializeUser(function(user, done) {
- 		done(null, user.id);
+ 		done(null, user.uid);
 });
 
   // used to deserialize the user

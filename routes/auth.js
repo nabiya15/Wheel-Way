@@ -9,6 +9,7 @@ module.exports = function(app, passport) {
 
  app.get("/", authController.home);
 
+
  app.get("/fail", authController.fail);
 
  app.get('/signup', authController.signup);
@@ -49,7 +50,7 @@ app.post('/signin',
 
 
 
- app.get('/dashboard/:user?',isLoggedIn, authController.dashboard);
+ app.get('/dashboard',isLoggedIn, authController.dashboard);
 
  app.get('/logout',authController.logout);
 }

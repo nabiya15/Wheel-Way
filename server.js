@@ -8,6 +8,7 @@ var express = require('express')
 , flash = require('connect-flash')
 , leafletGeosearch= require('leaflet-geosearch')
 , exphbs = require("express-handlebars")
+, moment= require("moment")
 var port = process.env.PORT || 8000;
 //For BodyParser
 app.use(bodyParser.urlencoded({
@@ -24,12 +25,6 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login 
 app.use(flash());
-app.use(function(req, res, next){
-	res.locals.success_msg= req.flash("success_msg");
-	res.locals.error_msg= req.flash("error_msg");
-	res.locals.error= req.flash("error");
-	next();
-})
 
 //For Handlebars
 
