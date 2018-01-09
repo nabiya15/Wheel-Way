@@ -13,6 +13,7 @@ The goal for this project was to build an intuitive app aimed at solving the dif
   * A polished, intuitive, and responsive front-end/UI
     * HTML, CSS
     * Handlebars.js
+    * Bootstrap
     * Materialize
   * An easy-to-use, interactive map made for the handicapped to use to get around in public
     * Leaflet.js (Mapbox.js)
