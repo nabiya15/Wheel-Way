@@ -38,4 +38,4 @@ Once the pin form is submitted, it is saved to a MySQL database.
   
 Check out our site (deployed using Heroku): https://fierce-mountain-65472.herokuapp.com/
 
-*This app is in the process of being further developed.* 
+#### *This app is in the process of being further developed.*
