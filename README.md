@@ -1,5 +1,7 @@
 # Wheel-Way
 
+![Image of wheelway2](https://github.com/nabiya15/Wheel-Way/blob/master/public/images/wheelway2.png)
+
 #### Project #2 for The Coding Bootcamp at UT Austin 
 
 The goal for this project was to build an intuitive app aimed at solving the difficulties the physically disabled face in a daily commute.
