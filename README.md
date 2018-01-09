@@ -14,7 +14,7 @@ The goal for this project was to build an intuitive app aimed at solving the dif
     * HTML, CSS
     * Handlebars.js
     * Materialize
-  * An easy to use, interactive map for those who are handicapped
+  * An easy-to-use, interactive map made for the handicapped to use to get around in public
     * Leaflet.js
   * Authentication of users
     * Passport.js
