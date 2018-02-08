@@ -37,6 +37,6 @@ Once the pin form is submitted, it is saved to a MySQL database.
     * Users will have their own customizable homepages and profiles 
     * Adding "likes" to pins for believability and rewards to users
   
-[Check out our site](https://fierce-mountain-65472.herokuapp.com/)
+[Check out our site](https://wheelway.herokuapp.com)
 
 #### *This app is in the process of being further developed.*
